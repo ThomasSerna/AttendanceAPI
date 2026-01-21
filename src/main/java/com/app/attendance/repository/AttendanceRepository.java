@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     @EntityGraph(attributePaths = {"student", "course"})
-    List<Attendance> findAllByClassDateAndCourse_Name(LocalDate classDate, String courseName);
+    List<Attendance> findAllByClassDateAndCourse_ClassCode(LocalDate classDate, String courseClassCode);
 }

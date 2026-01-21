@@ -14,15 +14,23 @@ public class Course {
     @NotBlank
     private String name;
 
+    @NotBlank
+    @Column(unique = true)
+    private String classCode;
+
     public Course(){}
 
-    public Course(String name) {
+    public Course(String name, String classCode) {
         this.name = name;
+        this.classCode = classCode;
     }
 
-    public Course(Long id, String name) {
-        this.id = id;
-        this.name = name;
+    public String getClassCode() {
+        return classCode;
+    }
+
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
     }
 
     public Long getId() {

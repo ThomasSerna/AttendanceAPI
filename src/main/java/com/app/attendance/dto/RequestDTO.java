@@ -15,8 +15,19 @@ public class RequestDTO {
     @NotBlank
     private String courseName;
 
+    @NotBlank
+    private String courseCode;
+
     @NotEmpty
     private List<RecordDTO> assistance;
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
 
     public LocalDate getDate() {
         return date;

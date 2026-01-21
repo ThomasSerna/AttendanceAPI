@@ -37,7 +37,7 @@ public class AttendanceService {
         for (RecordDTO record : requestDTO.getAssistance()) {
             attendanceRepository.save(new Attendance(
                     getStudentByName(record.getStudentName()),
-                    getCourseByName(requestDTO.getCourseName()),
+                    getCourseByName(requestDTO.getCourseName(), requestDTO.getCourseCode()),
                     record.getAttended(),
                     requestDTO.getDate()
                     ));
@@ -46,8 +46,8 @@ public class AttendanceService {
     }
 
     @Transactional(readOnly = true)
-    public List<Attendance> getAttendancesByClass(LocalDate classDate, String className){
-        return attendanceRepository.findAllByClassDateAndCourse_Name(classDate, className);
+    public List<Attendance> getAttendancesByClassCodeAndDate(LocalDate classDate, String classCode){
+        return attendanceRepository.findAllByClassDateAndCourse_ClassCode(classDate, classCode);
     }
 
     @Transactional(readOnly = true)
@@ -60,8 +60,8 @@ public class AttendanceService {
                 .orElse(studentRepository.save(new Student(studentName)));
     }
 
-    public Course getCourseByName(String courseName){
+    public Course getCourseByName(String courseName, String courseCode){
         return courseRepository.findByName(courseName)
-                .orElse(courseRepository.save(new Course(courseName)));
+                .orElse(courseRepository.save(new Course(courseName, courseCode)));
     }
 }
