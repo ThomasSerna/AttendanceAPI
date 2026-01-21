@@ -28,6 +28,8 @@ public class Attendance {
     @Column(name = "class_date")
     private LocalDate classDate;
 
+    public Attendance() {}
+
     public Attendance(Student student, Course course, Boolean assisted, LocalDate classDate) {
         this.student = student;
         this.course = course;
