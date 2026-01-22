@@ -21,4 +21,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
     @EntityGraph(attributePaths = {"student", "course"})
     List<Attendance> findAllByCourse_ClassCode(String courseClassCode);
+
+    Long countByStudent_StudentCodeAndCourse_ClassCodeAndAssistedTrue(String studentStudentCode, String courseClassCode, Boolean assisted);
 }

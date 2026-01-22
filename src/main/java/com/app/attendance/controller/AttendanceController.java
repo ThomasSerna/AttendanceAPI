@@ -3,6 +3,7 @@ package com.app.attendance.controller;
 import com.app.attendance.dto.ApiResponse;
 import com.app.attendance.dto.RequestDTO;
 import com.app.attendance.service.AttendanceService;
+import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class AttendanceController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Object>> createAttendance(@RequestBody RequestDTO requestDTO){
+    public ResponseEntity<ApiResponse<Object>> createAttendance(@Valid @RequestBody RequestDTO requestDTO){
         attendanceService.saveAttendance(requestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(
                 "Data saved successfully",
