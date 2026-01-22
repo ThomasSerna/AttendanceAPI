@@ -1,8 +1,10 @@
 package com.app.attendance.controller;
 
 import com.app.attendance.dto.ApiResponse;
+import com.app.attendance.dto.RequestDTO;
 import com.app.attendance.service.AttendanceService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +41,15 @@ public class AttendanceController {
         return ResponseEntity.ok(new ApiResponse<>(
                 "Data retrieved successfully",
                 attendanceService.getAttendancesByClassCodeAndDate(date, courseCode)
+        ));
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<Object>> createAttendance(@RequestBody RequestDTO requestDTO){
+        attendanceService.saveAttendance(requestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(
+                "Data saved successfully",
+                null
         ));
     }
 
