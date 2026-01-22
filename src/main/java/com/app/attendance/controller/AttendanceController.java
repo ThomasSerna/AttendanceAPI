@@ -2,6 +2,7 @@ package com.app.attendance.controller;
 
 import com.app.attendance.dto.ApiResponse;
 import com.app.attendance.service.AttendanceService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +26,16 @@ public class AttendanceController {
         ));
     }
 
+    @GetMapping(value = "/{courseCode}")
+    public ResponseEntity<ApiResponse<Object>> getAttendancesByCode(@PathVariable String courseCode){
+        return ResponseEntity.ok(new ApiResponse<>(
+                "Data retrieved successfully",
+                attendanceService.getAttendancesByCode(courseCode)
+        ));
+    }
+
     @GetMapping(value = "/{courseCode}", params = "date")
-    public ResponseEntity<ApiResponse<Object>> getAttendancesByNameAndDate(@PathVariable String courseCode, @RequestParam LocalDate date){
+    public ResponseEntity<ApiResponse<Object>> getAttendancesByCodeAndDate(@PathVariable String courseCode, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
         return ResponseEntity.ok(new ApiResponse<>(
                 "Data retrieved successfully",
                 attendanceService.getAttendancesByClassCodeAndDate(date, courseCode)

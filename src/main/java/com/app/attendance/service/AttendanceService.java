@@ -34,13 +34,15 @@ public class AttendanceService {
     @Transactional
     public void saveAttendance(RequestDTO requestDTO) {
         log.info("Class: {} - Date: {}", requestDTO.getCourseName(), requestDTO.getDate());
+
         for (RecordDTO record : requestDTO.getAssistance()) {
             attendanceRepository.save(new Attendance(
-                    getStudentByName(record.getStudentName()),
-                    getCourseByName(requestDTO.getCourseName(), requestDTO.getCourseCode()),
+                    getStudentByCode(record.getStudentName(), record.getStudentCode()),
+                    getCourseByCode(requestDTO.getCourseName(), requestDTO.getCourseCode()),
                     record.getAttended(),
                     requestDTO.getDate()
                     ));
+
             log.info("Student: {} - Assisted: {}", record.getStudentName(), record.getAttended());
         }
     }
@@ -50,18 +52,23 @@ public class AttendanceService {
         return attendanceRepository.findAllByClassDateAndCourse_ClassCode(classDate, classCode);
     }
 
+    @Transactional
+    public List<Attendance> getAttendancesByCode(String courseCode){
+        return attendanceRepository.findAllByCourse_ClassCode(courseCode);
+    }
+
     @Transactional(readOnly = true)
     public List<Attendance> getAllAttendances(){
         return attendanceRepository.findAll();
     }
 
-    public Student getStudentByName(String studentName){
-        return studentRepository.findByName(studentName)
-                .orElse(studentRepository.save(new Student(studentName)));
+    public Student getStudentByCode(String studentName, String studentCode){
+        return studentRepository.findByStudentCode(studentCode)
+                .orElse(studentRepository.save(new Student(studentName, studentCode)));
     }
 
-    public Course getCourseByName(String courseName, String courseCode){
-        return courseRepository.findByName(courseName)
+    public Course getCourseByCode(String courseName, String courseCode){
+        return courseRepository.findByClassCode(courseCode)
                 .orElse(courseRepository.save(new Course(courseName, courseCode)));
     }
 }
